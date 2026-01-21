@@ -91,7 +91,7 @@ from isaaclab_tasks.utils.hydra import hydra_task_config
 import agile.isaaclab_extras.monkey_patches
 
 # PLACEHOLDER: Extension template (do not remove this comment)
-import agile.rl_env.tasks  # noqa: F401
+import unitree_h12_sim2sim  # noqa: F401
 
 from agile.rl_env.rsl_rl import (  # isort: skip
     RslRlOnPolicyRunnerCfg,

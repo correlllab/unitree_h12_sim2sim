@@ -15,3 +15,6 @@ from isaaclab_tasks.utils import import_packages
 _BLACKLIST_PKGS = ["utils", ".mdp"]
 # Import all configs in this package
 import_packages(__name__, _BLACKLIST_PKGS)
+
+# Explicitly ensure manager_based is imported to register environments
+from . import manager_based  # noqa: F401

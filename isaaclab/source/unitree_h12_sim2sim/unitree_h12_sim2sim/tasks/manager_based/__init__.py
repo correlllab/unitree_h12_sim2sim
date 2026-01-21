@@ -4,3 +4,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 import gymnasium as gym  # noqa: F401
+
+# Explicitly import the Unitree H12 stand config to register the environment
+from . import unitree_h12_sim2sim  # noqa: F401
