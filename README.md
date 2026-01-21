@@ -1,135 +1,118 @@
-# Template for Isaac Lab Projects
+# Unitree H12 Sim2Sim Project
 
-## Overview
+A complete simulation-to-simulation pipeline for training and deploying the Unitree H12 humanoid robot, bridging Isaac Lab for training with MuJoCo for deployment.
 
-This project/repository serves as a template for building projects or extensions based on Isaac Lab.
-It allows you to develop in an isolated environment, outside of the core Isaac Lab repository.
+## Project Structure
 
-**Key Features:**
+```
+unitree_h12_sim2sim/
+├── isaaclab/                          # Isaac Lab training environments and robot definitions
+│   ├── source/
+│   │   └── unitree_h12_sim2sim/       # Isaac Lab extension
+│   │       ├── robots/
+│   │       │   └── unitree_h12.py     # H12 robot definition and configuration
+│   │       └── tasks/
+│   │           └── manager_based/
+│   │               └── unitree_h12_sim2sim/
+│   │                   ├── unitree_h12_sim2sim_stand_cfg.py   # Standing task
+│   │                   ├── unitree_h12_sim2sim_walk_cfg.py    # Walking task
+│   │                   ├── agents/      # RL training configurations
+│   │                   └── mdp/         # MDP components (observations, rewards, etc.)
+│   └── scripts/
+│       └── rsl_rl/                    # RSL-RL training scripts
+│
+├── wbc_agile_utils/                   # Training and evaluation utilities
+│   ├── train.py                       # RL policy training script
+│   ├── play.py                        # Run trained policies interactively
+│   ├── eval.py                        # Evaluate trained policies
+│   ├── export_IODescriptors.py        # Export robot I/O descriptors
+│   └── wandb_sweep/                   # Weights & Biases hyperparameter sweep configs
+│
+├── mujoco/                            # MuJoCo deployment and evaluation
+│   └── sim2mujoco_eval.py             # Evaluate policies in MuJoCo simulator
+│
+└── logs/                              # Training logs and checkpoints
+    └── rsl_rl/
+        └── unitree_h12_walk/          # Walking task training logs
+```
 
-- `Isolation` Work outside the core Isaac Lab repository, ensuring that your development efforts remain self-contained.
-- `Flexibility` This template is set up to allow your code to be run as an extension in Omniverse.
+## Components
 
-**Keywords:** extension, template, isaaclab
+### Isaac Lab (`isaaclab/`)
+Contains the simulation environments and robot definitions for training:
+- **Robot Definition** (`robots/unitree_h12.py`): Full H12 humanoid configuration with 27 DOF (12 leg + 15 upper body)
+- **Training Environments**: 
+  - `unitree_h12_sim2sim_stand_cfg.py`: Standing balance task
+  - `unitree_h12_sim2sim_walk_cfg.py`: Locomotion task with full-body control
+- **MDP Components** (`mdp/`): Reward functions, observations, curriculum, and event definitions
+
+### WBC Agile Utils (`wbc_agile_utils/`)
+Training and evaluation infrastructure:
+- **train.py**: RSL-RL policy training with support for curriculum learning
+- **play.py**: Interactive policy playback and visualization
+- **eval.py**: Evaluate trained policies on various metrics
+- **export_IODescriptors.py**: Export robot I/O descriptors for deployment
+
+### MuJoCo (`mujoco/`)
+Deployment and validation in MuJoCo:
+- **sim2mujoco_eval.py**: Evaluate Isaac Lab trained policies in MuJoCo simulator
 
 ## Installation
 
-- Install Isaac Lab by following the [installation guide](https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/index.html).
-  We recommend using the conda or uv installation as it simplifies calling Python scripts from the terminal.
+1. Install Isaac Lab following the [official guide](https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/index.html)
 
-- Clone or copy this project/repository separately from the Isaac Lab installation (i.e. outside the `IsaacLab` directory):
-
-- Using a python interpreter that has Isaac Lab installed, install the library in editable mode using:
-
-    ```bash
-    # use 'PATH_TO_isaaclab.sh|bat -p' instead of 'python' if Isaac Lab is not installed in Python venv or conda
-    python -m pip install -e source/unitree_h12_sim2sim
-
-- Verify that the extension is correctly installed by:
-
-    - Listing the available tasks:
-
-        Note: It the task name changes, it may be necessary to update the search pattern `"Template-"`
-        (in the `scripts/list_envs.py` file) so that it can be listed.
-
-        ```bash
-        # use 'FULL_PATH_TO_isaaclab.sh|bat -p' instead of 'python' if Isaac Lab is not installed in Python venv or conda
-        python scripts/list_envs.py
-        ```
-
-    - Running a task:
-
-        ```bash
-        # use 'FULL_PATH_TO_isaaclab.sh|bat -p' instead of 'python' if Isaac Lab is not installed in Python venv or conda
-        python scripts/<RL_LIBRARY>/train.py --task=<TASK_NAME>
-        ```
-
-    - Running a task with dummy agents:
-
-        These include dummy agents that output zero or random agents. They are useful to ensure that the environments are configured correctly.
-
-        - Zero-action agent
-
-            ```bash
-            # use 'FULL_PATH_TO_isaaclab.sh|bat -p' instead of 'python' if Isaac Lab is not installed in Python venv or conda
-            python scripts/zero_agent.py --task=<TASK_NAME>
-            ```
-        - Random-action agent
-
-            ```bash
-            # use 'FULL_PATH_TO_isaaclab.sh|bat -p' instead of 'python' if Isaac Lab is not installed in Python venv or conda
-            python scripts/random_agent.py --task=<TASK_NAME>
-            ```
-
-### Set up IDE (Optional)
-
-To setup the IDE, please follow these instructions:
-
-- Run VSCode Tasks, by pressing `Ctrl+Shift+P`, selecting `Tasks: Run Task` and running the `setup_python_env` in the drop down menu.
-  When running this task, you will be prompted to add the absolute path to your Isaac Sim installation.
-
-If everything executes correctly, it should create a file .python.env in the `.vscode` directory.
-The file contains the python paths to all the extensions provided by Isaac Sim and Omniverse.
-This helps in indexing all the python modules for intelligent suggestions while writing code.
-
-### Setup as Omniverse Extension (Optional)
-
-We provide an example UI extension that will load upon enabling your extension defined in `source/unitree_h12_sim2sim/unitree_h12_sim2sim/ui_extension_example.py`.
-
-To enable your extension, follow these steps:
-
-1. **Add the search path of this project/repository** to the extension manager:
-    - Navigate to the extension manager using `Window` -> `Extensions`.
-    - Click on the **Hamburger Icon**, then go to `Settings`.
-    - In the `Extension Search Paths`, enter the absolute path to the `source` directory of this project/repository.
-    - If not already present, in the `Extension Search Paths`, enter the path that leads to Isaac Lab's extension directory directory (`IsaacLab/source`)
-    - Click on the **Hamburger Icon**, then click `Refresh`.
-
-2. **Search and enable your extension**:
-    - Find your extension under the `Third Party` category.
-    - Toggle it to enable your extension.
-
-## Code formatting
-
-We have a pre-commit template to automatically format your code.
-To install pre-commit:
-
+2. Install the extension in editable mode:
 ```bash
-pip install pre-commit
+python -m pip install -e isaaclab/source/unitree_h12_sim2sim
 ```
 
-Then you can run pre-commit with:
-
+3. Verify installation by listing available environments:
 ```bash
-pre-commit run --all-files
+python isaaclab/scripts/list_envs.py
 ```
 
-## Troubleshooting
+## Quick Start
 
-### Pylance Missing Indexing of Extensions
+### Training
 
-In some VsCode versions, the indexing of part of the extensions is missing.
-In this case, add the path to your extension in `.vscode/settings.json` under the key `"python.analysis.extraPaths"`.
-
-```json
-{
-    "python.analysis.extraPaths": [
-        "<path-to-ext-repo>/source/unitree_h12_sim2sim"
-    ]
-}
+Train a walking policy with RSL-RL:
+```bash
+cd wbc_agile_utils
+python train.py --task Unitree-H12-Walk-v0 --num_envs 4096 --headless
 ```
 
-### Pylance Crash
-
-If you encounter a crash in `pylance`, it is probable that too many files are indexed and you run out of memory.
-A possible solution is to exclude some of omniverse packages that are not used in your project.
-To do so, modify `.vscode/settings.json` and comment out packages under the key `"python.analysis.extraPaths"`
-Some examples of packages that can likely be excluded are:
-
-```json
-"<path-to-isaac-sim>/extscache/omni.anim.*"         // Animation packages
-"<path-to-isaac-sim>/extscache/omni.kit.*"          // Kit UI tools
-"<path-to-isaac-sim>/extscache/omni.graph.*"        // Graph UI tools
-"<path-to-isaac-sim>/extscache/omni.services.*"     // Services tools
-...
+Train a standing policy:
+```bash
+cd wbc_agile_utils
+python train.py --task Unitree-H12-Stand-v0 --num_envs 4096 --headless
 ```
+
+### Evaluation
+
+Run a trained policy interactively:
+```bash
+cd wbc_agile_utils
+python play.py --task Unitree-H12-Walk-v0 --checkpoint <path_to_checkpoint>
+```
+
+Evaluate policy performance:
+```bash
+cd wbc_agile_utils
+python eval.py --task Unitree-H12-Walk-v0 --checkpoint <path_to_checkpoint>
+```
+
+### MuJoCo Deployment
+
+Evaluate an Isaac Lab trained policy in MuJoCo:
+```bash
+cd mujoco
+python sim2mujoco_eval.py --checkpoint <path_to_checkpoint>
+```
+
+
+## References
+
+- [Isaac Lab Documentation](https://isaac-sim.github.io/IsaacLab/)
+- [RSL-RL Library](https://github.com/leggedrobotics/rsl_rl)
+- [Unitree Robotics H12](https://www.unitree.com/)
+- [WBC Agile Repository](https://github.com/nvidia-isaac/WBC-AGILE)

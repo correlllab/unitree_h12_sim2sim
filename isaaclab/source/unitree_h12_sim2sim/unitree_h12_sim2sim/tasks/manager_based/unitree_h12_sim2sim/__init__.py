@@ -21,3 +21,13 @@ gym.register(
         "rsl_rl_cfg_entry_point": f"{agents.__name__}.rsl_rl_ppo_stand_cfg:PPORunnerCfg",
     },
 )
+
+gym.register(
+    id="Unitree-H12-Walk-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": f"{__name__}.unitree_h12_sim2sim_walk_cfg:H12LocomotionFullBodyEnvCfg",
+        "rsl_rl_cfg_entry_point": f"{agents.__name__}.rsl_rl_ppo_walk_cfg:PPORunnerCfg",
+    },
+)
