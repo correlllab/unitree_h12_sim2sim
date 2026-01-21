@@ -13,11 +13,11 @@ from . import agents
 
 
 gym.register(
-    id="Template-Unitree-H12-Sim2sim-v0",
+    id="Unitree-H12-Stand-v0",
     entry_point="isaaclab.envs:ManagerBasedRLEnv",
     disable_env_checker=True,
     kwargs={
-        "env_cfg_entry_point": f"{__name__}.unitree_h12_sim2sim_env_cfg:UnitreeH12Sim2simEnvCfg",
-        "rsl_rl_cfg_entry_point": f"{agents.__name__}.rsl_rl_ppo_cfg:PPORunnerCfg",
+        "env_cfg_entry_point": f"{__name__}.unitree_h12_sim2sim_stand_cfg:H12StandEnvCfg",
+        "rsl_rl_cfg_entry_point": f"{agents.__name__}.rsl_rl_ppo_stand_cfg:PPORunnerCfg",
     },
 )
