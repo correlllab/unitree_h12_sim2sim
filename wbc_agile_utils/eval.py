@@ -165,6 +165,7 @@ from isaaclab_tasks.utils import get_checkpoint_path, parse_env_cfg
 
 import agile.rl_env.tasks  # noqa: F401
 import agile.isaaclab_extras.monkey_patches
+import unitree_h12_sim2sim  # noqa: F401
 from rsl_rl.runners import OnPolicyRunner
 from agile.algorithms.evaluation.evaluator import PolicyEvaluator
 from agile.rl_env.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlVecEnvWrapper

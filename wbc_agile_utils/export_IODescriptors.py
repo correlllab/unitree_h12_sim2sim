@@ -46,10 +46,12 @@ import torch
 import isaaclab_tasks  # noqa: F401
 from isaaclab_tasks.utils import parse_env_cfg
 
-import agile.isaaclab_extras.monkey_patches  # noqa: F401
+# import agile.isaaclab_extras.monkey_patches  # noqa: F401
 
-# agile imports
-import agile.rl_env.tasks  # noqa: F401
+import unitree_h12_sim2sim  # noqa: F401
+
+# # agile imports
+# import agile.rl_env.tasks  # noqa: F401
 
 
 def convert_to_serializable(obj):

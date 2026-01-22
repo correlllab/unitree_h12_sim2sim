@@ -21,12 +21,12 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from agile.sim2mujoco.actions import ActionProcessor
-from agile.sim2mujoco.commands import CommandManager
-from agile.sim2mujoco.observations import ObservationProcessor
-from agile.sim2mujoco.policy import PolicyWrapper
-from agile.sim2mujoco.simulation import MuJocoSimulation
-from agile.sim2mujoco.utils import default_device, load_config
+from sim2mujoco.actions import ActionProcessor
+from sim2mujoco.commands import CommandManager
+from sim2mujoco.observations import ObservationProcessor
+from sim2mujoco.policy import PolicyWrapper
+from sim2mujoco.simulation import MuJocoSimulation
+from sim2mujoco.utils import default_device, load_config
 
 
 def main():

@@ -11,7 +11,7 @@ Main training script for RL agents using RSL-RL. Supports distributed training, 
 
 Example usage:
 ```bash
-python scripts/train.py --task Unitree-H12-Stand-v0 --num_envs 4096 --video --video_interval_iter 500 --headless --logger wandb
+python train.py --task Unitree-H12-Stand-v0 --num_envs 4096 --video --video_interval_iter 500 --headless --logger wandb
 ```
 
 ### `eval.py`
@@ -19,7 +19,7 @@ Evaluation script for trained RL agents. Loads checkpoints, evaluates agent perf
 
 Example usage:
 ```bash
-python scripts/eval.py --task Unitree-H12-Stand-v0 --num_envs 32 --checkpoint path/to/checkpoint.pt
+python eval.py --task Unitree-H12-Stand-v0 --num_envs 32 --checkpoint path/to/checkpoint.pt
 ```
 
 ### `play.py`
@@ -27,15 +27,7 @@ Environment validation script that runs environments with sinusoidal test action
 
 Example usage:
 ```bash
-python scripts/play.py --task Unitree-H12-Stand-v0 --num_envs 32
-```
-
-### `sim2mujoco_eval.py`
-Evaluation script for Sim2Sim transfer to MuJoCo. Runs trained policies in MuJoCo simulation to verify transfer performance before real hardware deployment. This is a **generic framework** that works with any task by automatically parsing the I/O descriptor YAML file.
-
-Example usage:
-```bash
-python scripts/sim2mujoco_eval.py --checkpoint path/to/policy.pt --config path/to/config.yaml --mjcf path/to/robot.xml
+python play.py --task Unitree-H12-Stand-v0 --num_envs 32
 ```
 
 **Quick Start Tutorial:**
