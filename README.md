@@ -89,16 +89,27 @@ python train.py --task Unitree-H12-Stand-v0 --num_envs 4096 --headless
 
 ### Evaluation
 
-Run a trained policy interactively:
+The evaluation script loads checkpoints, evaluates agent performance, and automatically exports policies to TorchScript and ONNX formats. 
+
 ```bash
 cd wbc_agile_utils
-python play.py --task Unitree-H12-Walk-v0 --checkpoint <path_to_checkpoint>
+python eval.py --task Unitree-H12-Walk-v0 --num_envs 32 --checkpoint <path_to_checkpoint>
 ```
 
-Evaluate policy performance:
+### Export I/O descriptors
+
+This generates the task/env specific yaml file, and this is needed to do sim2sim mujoco transfer. 
 ```bash
-cd wbc_agile_utils
-python eval.py --task Unitree-H12-Walk-v0 --checkpoint <path_to_checkpoint>
+python scripts/export_IODescriptors.py --task Unitree-H12-Walk-v0  --output_dir <path_to_output_dir> 
+```
+
+### Get Robot MJCF:
+
+Get the official robot models from [Unitree's MuJoCo repository](https://github.com/unitreerobotics/unitree_mujoco):
+
+```bash
+git clone https://github.com/unitreerobotics/unitree_mujoco.git
+# H1_2 robot: unitree_mujoco/unitree_robots/h1_2/scene.xml
 ```
 
 ### MuJoCo Deployment
@@ -106,7 +117,7 @@ python eval.py --task Unitree-H12-Walk-v0 --checkpoint <path_to_checkpoint>
 Evaluate an Isaac Lab trained policy in MuJoCo:
 ```bash
 cd mujoco
-python sim2mujoco_eval.py --checkpoint <path_to_checkpoint>
+python sim2mujoco_eval.py --checkpoint <path_to_checkpoint>  --config <path_to_config> --mjcf <path_to_xml> 
 ```
 
 
