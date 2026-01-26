@@ -1,0 +1,21 @@
+--- Current Repository State ---
+Branch: main
+Current commit: 5e0fec773f2f9f761f8fc4628c49927074189568
+Working directory: /home/niraj/WBC-AGILE
+
+--- Current Branch Commit History ---
+5e0fec7 walking sim2sim fine
+d60e844 added h12 trainings etc
+b93d6b8 debug obs and act
+93a94f4 first commit
+2fbc722 [Fix] Fixing the gain being not effective in the debug GUI
+ba7f565 [feat] Add object and reward visualizer for debugging
+ef1eba2 [feat] Upload the torch script for the recurrent student policy
+db4be41 [feat] Add sim2sim module
+f9360aa Fix debug env and update the play to not require a policy
+da6c452 Initial release v1.0.0
+
+--- Remote Information ---
+Remote: origin
+  URL: git@github.com:NirajPudasaini/WBC-AGILE.git
+
